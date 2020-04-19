@@ -6,6 +6,8 @@ package it.polito.tdp.ufo;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.ufo.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -27,6 +29,8 @@ public class UfoController {
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
+
+	private Model model;
 
     @FXML
     void handleAnalizza(ActionEvent event) {
@@ -50,4 +54,9 @@ public class UfoController {
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Ufo.fxml'.";
 
     }
+
+	public void setModel(Model model) {
+		this.model= model;
+		
+	}
 }
