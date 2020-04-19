@@ -7,6 +7,7 @@ package it.polito.tdp.ufo;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.ufo.model.Annata;
 import it.polito.tdp.ufo.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,10 +23,10 @@ public class UfoController {
     private URL location;
 
     @FXML // fx:id="boxAnno"
-    private ComboBox<?> boxAnno; // Value injected by FXMLLoader
+    private ComboBox<Annata> boxAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxStato"
-    private ComboBox<?> boxStato; // Value injected by FXMLLoader
+    private ComboBox<String> boxStato; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
@@ -34,12 +35,23 @@ public class UfoController {
 
     @FXML
     void handleAnalizza(ActionEvent event) {
-
+    	   try {
+    	    	txtResult.appendText(model.analizza(boxStato.getValue()));
+    	    }catch (Exception e ) {
+    	    txtResult.appendText("errore selezionare uno stato");
+    	    }
+    	    
     }
 
     @FXML
     void handleAvvistamenti(ActionEvent event) {
-
+    try {
+    	model.creaGrafo(boxAnno.getValue().getAnno());
+    	boxStato.getItems().addAll(model.getStati());
+    	
+    }catch (Exception e ) {
+    txtResult.appendText("errore selezionare un anno");
+    }
     }
 
     @FXML
@@ -52,11 +64,11 @@ public class UfoController {
         assert boxAnno != null : "fx:id=\"boxAnno\" was not injected: check your FXML file 'Ufo.fxml'.";
         assert boxStato != null : "fx:id=\"boxStato\" was not injected: check your FXML file 'Ufo.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Ufo.fxml'.";
-
+        
     }
 
 	public void setModel(Model model) {
 		this.model= model;
-		
+		boxAnno.getItems().addAll(this.model.getAnni());
 	}
 }

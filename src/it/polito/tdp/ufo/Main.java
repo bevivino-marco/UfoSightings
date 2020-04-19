@@ -12,13 +12,14 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Ufo.fxml"));
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			UfoController controller = new UfoController();
-			Model model = new Model ();
-			controller.setModel(model);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Ufo.fxml"));
+			BorderPane root = loader.load();
 			
+			UfoController controller = loader.getController();
+			Model model = new Model ();
+			controller.setModel(model);		
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());	
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
