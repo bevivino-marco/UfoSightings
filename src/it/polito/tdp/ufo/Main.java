@@ -18,6 +18,7 @@ public class Main extends Application {
 			UfoController controller = new UfoController();
 			Model model = new Model ();
 			controller.setModel(model);
+			
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
