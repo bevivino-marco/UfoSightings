@@ -4,15 +4,9 @@ public abstract class TestModel {
 
 	public static void main(String[] args) {
 		Model model = new Model();
-		model.creaGrafo(1949);
-        //System.out.println(model.analizza("tx"));
-        //System.out.println(model.getAnni());
+		model.creaGrafo(1951);
         model.analizza("tx");
-       // System.out.println(model.raggiungibili());
-      // System.out.println("hsrghpkign"+model.trovaSequenza("md")+"\n");
-        for (Sighting s : model.trovaSequenza("md")) {
-        	System.out.println(s.getState()+"\n");
         }
 	}
 
-}
+

@@ -66,7 +66,7 @@ public class SightingsDAO {
 
 	public List<Annata> getAnnate() {
 		String sql ="SELECT YEAR(DATETIME) as anno, COUNT(*) AS c " + 
-				"FROM sighting " + 
+				"FROM sighting WHERE country ='us'" + 
 				"GROUP BY YEAR(DATETIME)" ;
 		try {
 			Connection conn = DBConnect.getConnection() ;
@@ -99,6 +99,77 @@ public class SightingsDAO {
 		
 	}
 
+	public Map<String, String> getStatiV (int anno, Map<String, String> mappaS){
+		
+			String sql ="SELECT  DISTINCT state " + 
+					"FROM sighting  " + 
+					"WHERE  YEAR(datetime)=? AND country='us'" ;
+			try {
+				Connection conn = DBConnect.getConnection() ;
+				PreparedStatement st = conn.prepareStatement(sql) ;
+				st.setInt(1, anno);
+				ResultSet res = st.executeQuery() ;
+				Map <String, String> m = new HashMap<String, String>();
+				while(res.next()) {
+					try {
+						if (!mappaS.containsKey(res.getString("state"))) {
+							m.put(res.getString("state"), res.getString("state"));
+						}
+						
+					} catch (Throwable t) {
+						t.printStackTrace();
+						System.out.println("errore nella creazione del grafo!");
+					}
+				}
+				
+				conn.close();
+				return m ;
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null ;
+			}
+	}
+	
+	public boolean esisteArco (String stato1, String stato2, int anno) {
+		String sql ="SELECT  DISTINCT s1.state, s2.state " + 
+				"FROM sighting AS s1, sighting AS s2 " + 
+				"WHERE  YEAR(s1.datetime)=? AND s1.state=? AND s2.state=? AND YEAR(s1.datetime)=YEAR(s2.datetime) " + 
+				"AND s1.datetime< s2.datetime AND s1.country=s2.country AND s1.country='us'" ;
+		try {
+			Connection conn = DBConnect.getConnection() ;
+			PreparedStatement st = conn.prepareStatement(sql) ;
+			st.setInt(1, anno);
+			st.setString(2, stato1);
+			st.setString(3, stato2);
+			ResultSet res = st.executeQuery() ;
+			
+			if(res.next()) {
+				conn.close();
+				return true;
+			}conn.close();
+			return false ;
+	}catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return false ;
+	}
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*public List<Integer> getSuccessivi(int anno,LocalDateTime time,Map<Integer,Sighting> idMap ) {
 		String sql = "SELECT id  " + 
 				"FROM sighting " + 

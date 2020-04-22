@@ -36,7 +36,7 @@ public class UfoController {
     @FXML
     void handleAnalizza(ActionEvent event) {
     	   try {
-    	    	txtResult.appendText(model.analizza(boxStato.getValue())+"\n");
+    	   	txtResult.appendText(model.analizza(boxStato.getValue())+"\n");
     	    }catch (Exception e ) {
     	    txtResult.appendText("errore selezionare uno stato");
     	    }
@@ -47,8 +47,10 @@ public class UfoController {
     void handleAvvistamenti(ActionEvent event) {
     	txtResult.clear();
     try {
+    	
     	model.creaGrafo(boxAnno.getValue().getAnno());
-    	boxStato.getItems().addAll(model.getStati());
+        boxStato.getItems().addAll(model.getStati());
+        txtResult.appendText(model.parametriGrafo());
     	
     }catch (Exception e ) {
     txtResult.appendText("errore selezionare un anno");
@@ -59,7 +61,7 @@ public class UfoController {
     void handleSequenza(ActionEvent event) {
     	
    	   try {
-	    	txtResult.appendText(model.trovaSequenza(boxStato.getValue()).toString()+"\n");
+	   txtResult.appendText(model.trovaSequenza(boxStato.getValue()).toString()+"\n");
 	    }catch (Exception e ) {
 	    txtResult.appendText("errore selezionare uno stato");
 	    }
