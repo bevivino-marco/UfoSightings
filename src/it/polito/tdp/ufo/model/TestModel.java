@@ -8,7 +8,11 @@ public abstract class TestModel {
         //System.out.println(model.analizza("tx"));
         //System.out.println(model.getAnni());
         model.analizza("tx");
-        model.trovaSequenza("tx");
+        
+      // System.out.println("hsrghpkign"+model.trovaSequenza("md")+"\n");
+        for (Sighting s : model.trovaSequenza("md")) {
+        	System.out.println(s.getState()+"\n");
+        }
 	}
 
 }

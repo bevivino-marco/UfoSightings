@@ -36,7 +36,7 @@ public class UfoController {
     @FXML
     void handleAnalizza(ActionEvent event) {
     	   try {
-    	    	txtResult.appendText(model.analizza(boxStato.getValue()));
+    	    	txtResult.appendText(model.analizza(boxStato.getValue())+"\n");
     	    }catch (Exception e ) {
     	    txtResult.appendText("errore selezionare uno stato");
     	    }
@@ -45,6 +45,7 @@ public class UfoController {
 
     @FXML
     void handleAvvistamenti(ActionEvent event) {
+    	txtResult.clear();
     try {
     	model.creaGrafo(boxAnno.getValue().getAnno());
     	boxStato.getItems().addAll(model.getStati());
@@ -56,8 +57,15 @@ public class UfoController {
 
     @FXML
     void handleSequenza(ActionEvent event) {
-
-    }
+    	
+   	   try {
+	    	txtResult.appendText(model.trovaSequenza(boxStato.getValue()).toString()+"\n");
+	    }catch (Exception e ) {
+	    txtResult.appendText("errore selezionare uno stato");
+	    }
+	    
+}
+    
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

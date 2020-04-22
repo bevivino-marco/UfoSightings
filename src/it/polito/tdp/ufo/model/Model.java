@@ -40,7 +40,7 @@ public class Model {
     	mappaS= dao.getSightings(anno, mappaS);
     	listaS.addAll(mappaS.values());
     	Graphs.addAllVertices(grafo, listaS);
-    	System.out.println(grafo.vertexSet().toString());
+    	System.out.println(grafo.vertexSet().size());
     	// creo archi
     	for (Sighting s : grafo.vertexSet()) {
     		//List<Integer> l = new LinkedList<>(dao.getSuccessivi(anno,s.getDatetime(), mappaS));
@@ -140,7 +140,7 @@ public class Model {
     	while (it.hasNext()) {
     		result.add(it.next());
     	}
-    	System.out.println(backVisit);
+    	//System.out.println(backVisit);
     	return result;
     }
 	public List<Annata> getAnni() {
@@ -168,12 +168,12 @@ public class Model {
     			iniziale.add(s);
     		}
     	}
-		cerca (parziale,iniziale, finale, stato, stati, 0);
+		cerca (parziale,iniziale, finale, stato, passati, 0);
 		return finale;
     	
     }
 	private void cerca(List<Sighting> parziale, List<Sighting>iniziale, List<Sighting> finale, String stato, List<String> passati, int livello) {
-		System.out.println(parziale);
+		
 		List <Sighting> vicini = new LinkedList<>();
 	    if (livello == 0) {
 	    	vicini.addAll(iniziale);
@@ -181,19 +181,21 @@ public class Model {
 	    	vicini.addAll(Graphs.neighborListOf(grafo,
 				parziale.get(parziale.size()-1)));
 	    }
-	    if (vicini.size()==0) {
+	   
 	    	if (livello >MAX ) { 
 	    		MAX = livello;
 	    		finale.clear();
 	    		finale.addAll(parziale);
+	    		System.out.println(finale);
 	    		}
-	    		return;
-	    }
+	    		
+	    
 	    
 	    for (Sighting s : vicini) {
-	    	if (!passati.contains(s.getState())) {
+	    	if (!passati.contains(s.getState()) && Graphs.neighborListOf(grafo,s).size()>0) {
 	    		passati.add(s.getState());
 	    		parziale.add(s);
+	    		
 	    		cerca(parziale, iniziale, finale,stato , passati, livello+1);
 	    		parziale.remove(s);
 	    	}
