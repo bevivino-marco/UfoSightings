@@ -37,6 +37,14 @@ public class Model {
     	listaS = new LinkedList <Sighting>();
     	grafo = new SimpleDirectedGraph<>(DefaultEdge.class);
     	// creo vertici
+    	/**
+    	 * i vertici del grafo devono essere stati non sightings , con questa
+    	 * query riempio il grafo con il terzo modo
+    	 * SELECT  DISTINCT s1.state, s2.state
+FROM sighting AS s1, sighting AS s2
+WHERE  YEAR(s1.datetime)=2010 AND s1.state!=s2.state AND YEAR(s1.datetime)=YEAR(s2.datetime)
+AND s1.datetime> s2.datetime AND s1.country=s2.country AND s1.country='us'
+    	 */
     	mappaS= dao.getSightings(anno, mappaS);
     	listaS.addAll(mappaS.values());
     	Graphs.addAllVertices(grafo, listaS);
@@ -94,7 +102,7 @@ public class Model {
         backVisit.put(source, null); // la radice non ha un padre
     	//it.addTraversalListener(new Model.EdgeTraversedGraphListener());
     	
-    	it.addTraversalListener(new TraversalListener<Sighting, DefaultEdge>() {
+    	/*it.addTraversalListener(new TraversalListener<Sighting, DefaultEdge>() {
 
     		@Override
     		public void connectedComponentFinished(ConnectedComponentTraversalEvent arg0) {
@@ -115,7 +123,7 @@ public class Model {
     			/**
     			 * se il grafo è orientato allora il source sara il parente e il target sara il child.
     			 * se non è orientato, potrebbe anche essere il contrario.
-    			 */
+    			 *//*
     			if (!backVisit.containsKey(targetVertex) && backVisit.containsKey(sourceVertex)) {
     				backVisit.put(targetVertex, sourceVertex);
     			}else if (!backVisit.containsKey(sourceVertex) && backVisit.containsKey(targetVertex)) {
@@ -136,6 +144,7 @@ public class Model {
     			// TODO Auto-generated method stub
     			
     		}});
+    		*/
     	
     	while (it.hasNext()) {
     		result.add(it.next());
